@@ -37,8 +37,9 @@
 
                 var contentLength = Encoding.UTF8.GetBytes(html);
 
-                var response = "HTTP/1.1 200 0K" + NewLine +
+                var response = "HTTP/1.1 200 OK" + NewLine +
                     "Server: CustomServer 2020" + NewLine +
+                   // "Location: https://google.com" + NewLine +
                     "Content-Type: text/html; charset=utf-8" + NewLine +
                     $"Content-Length: {contentLength.Length}" + NewLine +
                     NewLine +
