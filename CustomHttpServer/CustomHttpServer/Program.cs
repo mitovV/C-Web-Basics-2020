@@ -35,14 +35,15 @@
 
                 var html = $"<h1>Hello from CustomServer {DateTime.Now}</h1>";
 
-                var responseBytes = Encoding.UTF8.GetBytes(html);
-
                 var response = "HTTP/1.1 200 0K" + NewLine +
                     "Server: CustomServer 2020" + NewLine +
                     "Content-Type: text/html; charset=utf-8" + NewLine +
-                    $"Content-Lenght: {responseBytes.Length}" + NewLine +
+                    $"Content-Lenght: {html.Length}" + NewLine +
+                    NewLine +
+                    html +
                     NewLine;
 
+                var responseBytes = Encoding.UTF8.GetBytes(response);
                 stream.Write(responseBytes);
 
                 Console.WriteLine(new string('=', 80));
@@ -59,7 +60,7 @@
             {
                 var readedBytes = stream.Read(buffer, 0, buffer.Length);
 
-                if (readedBytes == 0 && buffer.Any(x => x != 0))
+                if (readedBytes == 0)
                 {
                     break;
                 }
