@@ -35,10 +35,12 @@
 
                 var html = $"<h1>Hello from CustomServer {DateTime.Now}</h1>";
 
+                var contentLength = Encoding.UTF8.GetBytes(html);
+
                 var response = "HTTP/1.1 200 0K" + NewLine +
                     "Server: CustomServer 2020" + NewLine +
                     "Content-Type: text/html; charset=utf-8" + NewLine +
-                    $"Content-Lenght: {html.Length}" + NewLine +
+                    $"Content-Length: {contentLength.Length}" + NewLine +
                     NewLine +
                     html +
                     NewLine;
