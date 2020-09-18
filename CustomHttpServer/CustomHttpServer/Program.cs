@@ -10,11 +10,12 @@
 
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
             const int Port = 80;
+            const string NewLine = "\r\n";
 
             var tcpListener = new TcpListener(IPAddress.Loopback, Port);
 
@@ -23,20 +24,33 @@
             while (true)
             {
                 var client = tcpListener.AcceptTcpClient();
-              
-                var readedBytes = GetAllData(client).ToArray();
 
-                var dataAsString = Encoding.UTF8.GetString(readedBytes, 0, readedBytes.Length);
+                using var stream = client.GetStream();
 
-                Console.WriteLine(dataAsString);
+                var data = GetAllData(stream).ToArray();
+
+                var requestString = Encoding.UTF8.GetString(data, 0, data.Length);
+
+                Console.WriteLine(requestString);
+
+                var html = $"<h1>Hello from CustomServer {DateTime.Now}</h1>";
+
+                var responseBytes = Encoding.UTF8.GetBytes(html);
+
+                var response = "HTTP/1.1 200 0K" + NewLine +
+                    "Server: CustomServer 2020" + NewLine +
+                    "Content-Type: text/html; charset=utf-8" + NewLine +
+                    $"Content-Lenght: {responseBytes.Length}" + NewLine +
+                    NewLine;
+
+                stream.Write(responseBytes);
+
                 Console.WriteLine(new string('=', 80));
             }
         }
 
-        private static List<byte> GetAllData(TcpClient client)
+        private static List<byte> GetAllData(NetworkStream stream)
         {
-            using var stream = client.GetStream();
-
             var data = new List<byte>();
 
             var buffer = new byte[4096];
