@@ -6,7 +6,6 @@
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
-    using System.Threading.Tasks;
 
     public class Program
     {
@@ -35,13 +34,13 @@
 
                 var html = $"<h1>Hello from CustomServer {DateTime.Now}</h1>";
 
-                var contentLength = Encoding.UTF8.GetBytes(html);
+                var content = Encoding.UTF8.GetBytes(html);
 
                 var response = "HTTP/1.1 200 OK" + NewLine +
                     "Server: CustomServer 2020" + NewLine +
                    // "Location: https://google.com" + NewLine +
                     "Content-Type: text/html; charset=utf-8" + NewLine +
-                    $"Content-Length: {contentLength.Length}" + NewLine +
+                    $"Content-Length: {content.Length}" + NewLine +
                     NewLine +
                     html +
                     NewLine;
