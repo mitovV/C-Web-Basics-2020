@@ -6,15 +6,16 @@
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using System.Threading.Tasks;
 
     public class Program
     {
-        public static void Main()
+        private const int Port = 80;
+        private const string NewLine = "\r\n";
+
+        public async static Task Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
-
-            const int Port = 80;
-            const string NewLine = "\r\n";
 
             var tcpListener = new TcpListener(IPAddress.Loopback, Port);
 
@@ -22,37 +23,43 @@
 
             while (true)
             {
-                var client = tcpListener.AcceptTcpClient();
+                var client = await tcpListener.AcceptTcpClientAsync();
 
-                using var stream = client.GetStream();
-
-                var data = GetAllData(stream).ToArray();
-
-                var requestString = Encoding.UTF8.GetString(data, 0, data.Length);
-
-                Console.WriteLine(requestString);
-
-                var html = $"<h1>Hello from CustomServer {DateTime.Now}</h1>";
-
-                var content = Encoding.UTF8.GetBytes(html);
-
-                var response = "HTTP/1.1 200 OK" + NewLine +
-                    "Server: CustomServer 2020" + NewLine +
-                   // "Location: https://google.com" + NewLine +
-                    "Content-Type: text/html; charset=utf-8" + NewLine +
-                    $"Content-Length: {content.Length}" + NewLine +
-                    NewLine +
-                    html +
-                    NewLine;
-
-                var responseBytes = Encoding.UTF8.GetBytes(response);
-                stream.Write(responseBytes);
-
-                Console.WriteLine(new string('=', 80));
+               ProcessClientAsync(client);
             }
         }
 
-        private static List<byte> GetAllData(NetworkStream stream)
+        private async static Task ProcessClientAsync(TcpClient client)
+        {
+            using var stream = client.GetStream();
+
+            var data = await GetAllDataAsync(stream);
+
+            var requestString = Encoding.UTF8.GetString(data, 0, data.Length);
+
+            Console.WriteLine(requestString);
+
+            var html = $"<h1>Hello from CustomServer {DateTime.Now}</h1>";
+
+            var content = Encoding.UTF8.GetBytes(html);
+
+            var response = "HTTP/1.1 200 OK" + NewLine +
+                "Server: CustomServer 2020" + NewLine +
+                // "Location: https://google.com" + NewLine +
+                "Content-Type: text/html; charset=utf-8" + NewLine +
+                $"Content-Length: {content.Length}" + NewLine +
+                NewLine +
+                html +
+                NewLine;
+
+            var responseBytes = Encoding.UTF8.GetBytes(response);
+
+            await stream.WriteAsync(responseBytes);
+
+            Console.WriteLine(new string('=', 80));
+        }
+
+        private async static Task<byte[]> GetAllDataAsync(NetworkStream stream)
         {
             var data = new List<byte>();
 
@@ -60,7 +67,7 @@
 
             while (true)
             {
-                var readedBytes = stream.Read(buffer, 0, buffer.Length);
+                var readedBytes = await stream.ReadAsync(buffer, 0, buffer.Length);
 
                 if (readedBytes == 0)
                 {
@@ -75,7 +82,7 @@
                 }
             }
 
-            return data;
+            return data.ToArray();
         }
     }
 }
