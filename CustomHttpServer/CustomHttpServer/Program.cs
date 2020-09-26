@@ -47,6 +47,10 @@
                 "Server: CustomServer 2020" + NewLine +
                 // "Location: https://google.com" + NewLine +
                 "Content-Type: text/html; charset=utf-8" + NewLine +
+                "Set-Cookie: language=bg" + NewLine +
+                "Set-Cookie: sid=12345ggj; Secure; HttpOnly" + NewLine +
+                //"Set-Cookie: test=value; Max-Age=" + 20 + NewLine +
+                //"Set-Cookie: test=pathCookie; Path=/test" + NewLine +
                 $"Content-Length: {content.Length}" + NewLine +
                 NewLine +
                 html +
