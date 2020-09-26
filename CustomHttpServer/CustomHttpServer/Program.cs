@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
@@ -25,7 +26,7 @@
             {
                 var client = await tcpListener.AcceptTcpClientAsync();
 
-               ProcessClientAsync(client);
+                ProcessClientAsync(client);
             }
         }
 
@@ -39,26 +40,43 @@
 
             Console.WriteLine(requestString);
 
-            var html = $"<h1>Hello from CustomServer {DateTime.Now}</h1>";
+            if (requestString.Contains("favicon.ico"))
+            {
+                var content = File.ReadAllBytes("favicon.ico");
 
-            var content = Encoding.UTF8.GetBytes(html);
+                var response = "HTTP/1.1 200 OK" + NewLine +
+                    $"Content-Length: {content.Length}" + NewLine +
+                    "Content-Type: image/x-icon" + NewLine +
+                    NewLine;
 
-            var response = "HTTP/1.1 200 OK" + NewLine +
-                "Server: CustomServer 2020" + NewLine +
-                // "Location: https://google.com" + NewLine +
-                "Content-Type: text/html; charset=utf-8" + NewLine +
-                "Set-Cookie: language=bg" + NewLine +
-                "Set-Cookie: sid=12345ggj; Secure; HttpOnly" + NewLine +
-                //"Set-Cookie: test=value; Max-Age=" + 20 + NewLine +
-                //"Set-Cookie: test=pathCookie; Path=/test" + NewLine +
-                $"Content-Length: {content.Length}" + NewLine +
-                NewLine +
-                html +
-                NewLine;
+                List<byte> responseBytes = Encoding.UTF8.GetBytes(response).ToList();
+                responseBytes.AddRange(content);
 
-            var responseBytes = Encoding.UTF8.GetBytes(response);
+                await stream.WriteAsync(responseBytes.ToArray());
+            }
+            else if (requestString.Contains("GET / HTTP/1.1"))
+            {
+                var html = $"<h1>Hello from CustomServer {DateTime.Now}</h1>";
 
-            await stream.WriteAsync(responseBytes);
+                var content = Encoding.UTF8.GetBytes(html);
+
+                var response = "HTTP/1.1 200 OK" + NewLine +
+                    "Server: CustomServer 2020" + NewLine +
+                    // "Location: https://google.com" + NewLine +
+                    "Content-Type: text/html; charset=utf-8" + NewLine +
+                    "Set-Cookie: language=bg" + NewLine +
+                    "Set-Cookie: sid=12345ggj; Secure; HttpOnly" + NewLine +
+                    //"Set-Cookie: test=value; Max-Age=" + 20 + NewLine +
+                    //"Set-Cookie: test=pathCookie; Path=/test" + NewLine +
+                    $"Content-Length: {content.Length}" + NewLine +
+                    NewLine +
+                    html +
+                    NewLine;
+
+                var responseBytes = Encoding.UTF8.GetBytes(response);
+
+                await stream.WriteAsync(responseBytes);
+            }
 
             Console.WriteLine(new string('=', 80));
         }
