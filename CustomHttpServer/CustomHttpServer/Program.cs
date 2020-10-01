@@ -49,10 +49,11 @@
                     "Content-Type: image/x-icon" + NewLine +
                     NewLine;
 
-                List<byte> responseBytes = Encoding.UTF8.GetBytes(response).ToList();
-                responseBytes.AddRange(content);
+                var responseBytes = Encoding.UTF8.GetBytes(response);
 
-                await stream.WriteAsync(responseBytes.ToArray());
+                await stream.WriteAsync(responseBytes);
+                await stream.WriteAsync(content);
+
             }
             else if (requestString.Contains("GET / HTTP/1.1"))
             {
@@ -79,6 +80,7 @@
             }
 
             Console.WriteLine(new string('=', 80));
+            client.Close();
         }
 
         private async static Task<byte[]> GetAllDataAsync(NetworkStream stream)
