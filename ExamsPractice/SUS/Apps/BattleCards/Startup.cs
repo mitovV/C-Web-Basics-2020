@@ -3,6 +3,7 @@
     using System.Collections.Generic;
 
     using Data;
+    using Services;
     using SUS.HTTP;
     using SUS.MvcFramework;
 
@@ -17,7 +18,7 @@
 
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
-
+            serviceCollection.Add<IUsersService, UsersService>();
         }
     }
 }
