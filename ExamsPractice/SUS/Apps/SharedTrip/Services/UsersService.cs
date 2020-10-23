@@ -1,10 +1,9 @@
 ﻿namespace SharedTrip.Services
 {
-    using System;
+    using Data;
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
-
-    using Data;
 
     public class UsersService : IUsersService
     {
@@ -29,9 +28,10 @@
         }
 
         public string GetUserId(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
+            => this.db.Users
+            .Where(x => x.Username == username && x.Password == ComputeHash(password))
+            .Select(x => x.Id)
+            .FirstOrDefault();
 
         private static string ComputeHash(string input)
         {
