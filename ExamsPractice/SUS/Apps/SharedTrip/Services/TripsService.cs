@@ -32,6 +32,25 @@
             this.db.SaveChanges();
         }
 
+        public bool AddUserToTrip(string userId, string tripId)
+        {
+            var userTrip = this.db.UserTrips.Where(x => x.UserId == userId && x.TripId == tripId).FirstOrDefault();
+
+            if (userTrip == null)
+            {
+                userTrip = new UserTrip
+                {
+                    UserId = userId,
+                    TripId = tripId
+                };
+
+                this.db.UserTrips.Add(userTrip);
+                this.db.SaveChanges();
+            }
+
+            return true;
+        }
+
         public IEnumerable<TripViewModel> AllTrips()
          => this.db.Trips.Select(x => new TripViewModel
          {
@@ -42,5 +61,20 @@
              Seats = x.Seats
          })
             .ToList();
+
+        public TripDetailsViewModel GetById(string id)
+            => this.db.Trips
+            .Where(x => x.Id == id)
+            .Select(x => new TripDetailsViewModel
+            {
+                Id = x.Id,
+                StartPoint = x.StartPoint,
+                EndPoint = x.EndPoint,
+                DepartureTime = x.DepartureTime,
+                Seats = x.Seats,
+                Description = x.Description,
+                ImagePath = x.ImagePath
+            })
+            .FirstOrDefault();
     }
 }

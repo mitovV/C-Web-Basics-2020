@@ -76,5 +76,29 @@
             this.tripsService.Add(model.StartPoint, model.EndPoint, date, model.ImagePath, model.Seats, model.Description);
             return this.Redirect("/Trips/All");
         }
+
+        public HttpResponse Details(string tripId)
+        {
+            if (!this.IsUserSignedIn())
+            {
+                return this.Redirect("/Users/Login");
+            }
+
+            var viewModel = this.tripsService.GetById(tripId);
+
+            return this.View(viewModel);
+        }
+
+        public HttpResponse AddUserToTrip(string tripId)
+        {
+            if (!this.IsUserSignedIn())
+            {
+                return Redirect("/Users/Login");
+            }
+
+            this.tripsService.AddUserToTrip(this.GetUserId(), tripId);
+
+            return this.Redirect("/");
+        }
     }
 }
