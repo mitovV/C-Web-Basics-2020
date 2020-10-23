@@ -1,8 +1,11 @@
 ﻿namespace SharedTrip.Services
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using Data;
+    using ViewModels.Trips;
 
     public class TripsService : ITripsService
     {
@@ -28,5 +31,16 @@
             this.db.Trips.Add(trip);
             this.db.SaveChanges();
         }
+
+        public IEnumerable<TripViewModel> AllTrips()
+         => this.db.Trips.Select(x => new TripViewModel
+         {
+             Id = x.Id,
+             DepartureTime = x.DepartureTime,
+             StartPoint = x.StartPoint,
+             EndPoint = x.EndPoint,
+             Seats = x.Seats
+         })
+            .ToList();
     }
 }

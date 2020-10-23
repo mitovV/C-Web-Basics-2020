@@ -24,7 +24,8 @@
                 return this.Redirect("/Users/Login");
             }
 
-            return this.View();
+            var viewModel = this.tripsService.AllTrips();
+            return this.View(viewModel);
         }
 
         public HttpResponse Add()
