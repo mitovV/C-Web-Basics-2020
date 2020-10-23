@@ -10,7 +10,7 @@
         {
             if (this.IsUserSignedIn())
             {
-                //TODO: 
+                return this.Redirect("/Cards/All");
             }
 
             return this.View();

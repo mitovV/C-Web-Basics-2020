@@ -24,6 +24,6 @@
         [Required]
         public string Password { get; set; }
 
-        ICollection<UserCard> Cards { get; set; }
+        public ICollection<UserCard> Cards { get; set; }
     }
 }

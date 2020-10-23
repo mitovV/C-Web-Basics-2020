@@ -3,7 +3,6 @@
     using Models;
 
     using Microsoft.EntityFrameworkCore;
-    using System.Security.Cryptography.X509Certificates;
 
     public class ApplicationDbContext : DbContext
     {

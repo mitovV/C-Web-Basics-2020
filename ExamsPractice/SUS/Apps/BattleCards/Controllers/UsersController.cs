@@ -1,9 +1,10 @@
 ﻿namespace BattleCards.Controllers
 {
+    using System.ComponentModel.DataAnnotations;
+
     using Services;
     using SUS.HTTP;
     using SUS.MvcFramework;
-    using System.ComponentModel.DataAnnotations;
     using ViewModels.Users;
 
     public class UsersController : Controller
@@ -19,7 +20,7 @@
         {
             if (this.IsUserSignedIn())
             {
-
+                return this.Redirect("/Cards/All");
             }
 
             return this.View();
@@ -28,6 +29,11 @@
         [HttpPost]
         public HttpResponse Login(LoginInputModel model)
         {
+            if (this.IsUserSignedIn())
+            {
+                return this.Redirect("/Cards/All");
+            }
+
             var userId = this.usersService.GetUserId(model.Username, model.Password);
 
             if (userId == null)
@@ -43,7 +49,7 @@
         {
             if (this.IsUserSignedIn())
             {
-
+                return this.Redirect("/Cards/All");
             }
 
             return this.View();
@@ -54,7 +60,7 @@
         {
             if (this.IsUserSignedIn())
             {
-
+                return this.Redirect("/Cards/All");
             }
 
             if (string.IsNullOrEmpty(model.Username) || model.Username.Length < 5 || model.Username.Length > 20)
@@ -79,6 +85,17 @@
 
             this.usersService.CreateUser(model.Username, model.Email, model.Password);
             return this.Redirect("/Users/Login");
+        }
+
+        public HttpResponse Logout()
+        {
+            if (!this.IsUserSignedIn())
+            {
+                return this.Redirect("/Users/Login");
+            }
+
+            this.SignOut();
+            return this.Redirect("/");
         }
     }
 }
