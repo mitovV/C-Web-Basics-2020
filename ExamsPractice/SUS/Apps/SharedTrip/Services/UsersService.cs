@@ -1,9 +1,10 @@
 ﻿namespace SharedTrip.Services
 {
-    using Data;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+
+    using Data;
 
     public class UsersService : IUsersService
     {

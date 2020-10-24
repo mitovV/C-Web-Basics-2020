@@ -1,10 +1,11 @@
 ﻿namespace SharedTrip.Controllers
 {
+    using System.ComponentModel.DataAnnotations;
+
     using Services;
-    using ViewModels.User;
     using SUS.HTTP;
     using SUS.MvcFramework;
-    using System.ComponentModel.DataAnnotations;
+    using ViewModels.User;
 
     public class UsersController : Controller
     {
@@ -17,12 +18,22 @@
 
         public HttpResponse Login()
         {
+            if (this.IsUserSignedIn())
+            {
+                return this.Redirect("/Trips/All");
+            }
+
             return this.View();
         }
 
         [HttpPost]
         public HttpResponse Login(string username, string password)
         {
+            if (this.IsUserSignedIn())
+            {
+                return this.Redirect("/Trips/All");
+            }
+
             var userId = usersService.GetUserId(username, password);
 
             if (userId == null)
@@ -31,17 +42,27 @@
             }
 
             this.SignIn(userId);
-            return this.Redirect("/");
+            return this.Redirect("/Trips/All");
         }
 
         public HttpResponse Register()
         {
+            if (this.IsUserSignedIn())
+            {
+                return this.Redirect("/Trips/All");
+            }
+
             return this.View();
         }
 
         [HttpPost]
         public HttpResponse Register(UserRegisterInputModel model)
         {
+            if (this.IsUserSignedIn())
+            {
+                return this.Redirect("/Trips/All");
+            }
+
             if (string.IsNullOrEmpty(model.Username) || model.Username.Length < 5 || model.Username.Length > 20)
             {
                 return this.Error("Username should be between 5 and 20 characters.");
@@ -67,7 +88,7 @@
             return this.Redirect("/Users/Login");
         }
 
-        public HttpResponse Logout() 
+        public HttpResponse Logout()
         {
             this.SignOut();
             return this.Redirect("/");

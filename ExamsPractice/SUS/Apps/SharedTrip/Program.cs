@@ -1,7 +1,8 @@
 ﻿namespace SharedTrip
 {
-    using SUS.MvcFramework;
     using System.Threading.Tasks;
+
+    using SUS.MvcFramework;
 
     public class Program
     {

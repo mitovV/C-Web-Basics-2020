@@ -16,5 +16,9 @@
         public string DepartureTimeAsString => DepartureTime.ToString(CultureInfo.GetCultureInfo("BG-bg"));
 
         public byte Seats { get; set; }
+
+        public int TakenSeats { get; set; }
+
+        public int AvailableSeats => this.Seats - this.TakenSeats;
     }
 }

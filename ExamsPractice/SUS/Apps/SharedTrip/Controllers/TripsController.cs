@@ -96,9 +96,17 @@
                 return Redirect("/Users/Login");
             }
 
-            this.tripsService.AddUserToTrip(this.GetUserId(), tripId);
+            if (!this.tripsService.HasAvailableSeats(tripId))
+            {
+                return this.Error("No seats available.");
+            }
 
-            return this.Redirect("/");
+            if (!this.tripsService.AddUserToTrip(this.GetUserId(), tripId))
+            {
+                return this.Redirect("/Trips/Details?tripId=" + tripId);
+            }
+
+            return this.Redirect("/Trips/All");
         }
     }
 }

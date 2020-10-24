@@ -46,9 +46,10 @@
 
                 this.db.UserTrips.Add(userTrip);
                 this.db.SaveChanges();
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         public IEnumerable<TripViewModel> AllTrips()
@@ -58,7 +59,8 @@
              DepartureTime = x.DepartureTime,
              StartPoint = x.StartPoint,
              EndPoint = x.EndPoint,
-             Seats = x.Seats
+             Seats = x.Seats,
+             TakenSeats = x.UserTrips.Count
          })
             .ToList();
 
@@ -72,9 +74,23 @@
                 EndPoint = x.EndPoint,
                 DepartureTime = x.DepartureTime,
                 Seats = x.Seats,
+                TakenSeats = x.UserTrips.Count,
                 Description = x.Description,
                 ImagePath = x.ImagePath
             })
             .FirstOrDefault();
+
+        public bool HasAvailableSeats(string tripId)
+        {
+            var trip = this.db.Trips.Where(t => t.Id == tripId)
+                .Select(t => new
+                {
+                    t.Seats,
+                    TakenSeats = t.UserTrips.Count
+                })
+                .FirstOrDefault();
+
+            return (trip.Seats - trip.TakenSeats) > 0;
+        }
     }
 }

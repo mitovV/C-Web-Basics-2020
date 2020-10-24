@@ -8,7 +8,6 @@
     using SUS.MvcFramework;
 
     using Microsoft.EntityFrameworkCore;
-
     public class Startup : IMvcApplication
     {
         public void Configure(List<Route> routeTable)

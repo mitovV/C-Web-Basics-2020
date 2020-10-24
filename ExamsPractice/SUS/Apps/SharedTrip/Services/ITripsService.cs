@@ -14,5 +14,7 @@
         TripDetailsViewModel GetById(string id);
 
         bool AddUserToTrip(string userId, string tripId);
+
+        bool HasAvailableSeats(string tripId);
     }
 }
