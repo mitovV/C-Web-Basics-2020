@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleCards", "Apps\BattleC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedTrip", "Apps\SharedTrip\SharedTrip.csproj", "{7C12F0D9-CAF3-45BF-9316-2C81FAD41419}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git", "Apps\Git\Git.csproj", "{7C2D1ED1-CE14-4EC1-8FDB-DD7245F7E6FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{7C12F0D9-CAF3-45BF-9316-2C81FAD41419}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C12F0D9-CAF3-45BF-9316-2C81FAD41419}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C12F0D9-CAF3-45BF-9316-2C81FAD41419}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C2D1ED1-CE14-4EC1-8FDB-DD7245F7E6FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C2D1ED1-CE14-4EC1-8FDB-DD7245F7E6FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C2D1ED1-CE14-4EC1-8FDB-DD7245F7E6FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C2D1ED1-CE14-4EC1-8FDB-DD7245F7E6FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{DD79BC92-4BDA-4411-B298-7FD7C705D911} = {D058481A-B479-499D-ADB8-9108A526A334}
 		{E1F03A75-4DC3-4A58-A622-54E0F1B78349} = {D058481A-B479-499D-ADB8-9108A526A334}
 		{7C12F0D9-CAF3-45BF-9316-2C81FAD41419} = {D058481A-B479-499D-ADB8-9108A526A334}
+		{7C2D1ED1-CE14-4EC1-8FDB-DD7245F7E6FC} = {D058481A-B479-499D-ADB8-9108A526A334}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1DE8A1FE-A195-4206-8DF0-E23F1C7707C8}
