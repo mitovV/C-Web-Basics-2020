@@ -23,7 +23,7 @@
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=Git;Integrated Security=true;");
+                optionsBuilder.UseSqlServer(@"Server=.;Database=Git;Integrated Security=true;");
             }
         }
     }

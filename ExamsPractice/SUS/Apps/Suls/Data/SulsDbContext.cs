@@ -23,7 +23,7 @@
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Suls;Integrated Security=true");
+                optionsBuilder.UseSqlServer("Server=.;Database=Suls;Integrated Security=true");
             }
         }
     }
